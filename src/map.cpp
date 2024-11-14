@@ -1,4 +1,4 @@
-#include"map.h"
+#include "map.h"
 
 Map::Map() : height(-1), width(-1), start_i(-1), start_j(-1), goal_i(-1), goal_j(-1), Grid(nullptr) {}
 Map::~Map()

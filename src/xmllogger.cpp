@@ -1,4 +1,4 @@
-#include"xmllogger.h"
+#include "xmllogger.h"
 
 XmlLogger::XmlLogger(float loglvl) {
     loglevel = loglvl;

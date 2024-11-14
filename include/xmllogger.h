@@ -3,8 +3,8 @@
 
 #include "gl_const.h"
 #include "logger.h"
-#include "tinyxml/tinyxml.h"
-#include "tinyxml/tinystr.h"
+#include "tinyxml.h"
+#include "tinystr.h"
 
 #include <iostream>
 #include <sstream>
