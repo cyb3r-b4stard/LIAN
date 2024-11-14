@@ -10,7 +10,6 @@
 #include <sstream>
 #include <string>
 
-
 class Map {
 
 private:

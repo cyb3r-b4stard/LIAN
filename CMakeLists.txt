@@ -14,7 +14,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-set(SOURCE_FILES
+set(SOURCE_FILES 
 	main.cpp
 	src/liansearch.cpp
 	src/openlist.cpp
