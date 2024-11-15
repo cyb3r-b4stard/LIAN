@@ -1,4 +1,5 @@
 import os
+import pathlib
 
 HEURISTIC_WEIGHT                  = 2
 ANGLE_LIMIT                       = 25
@@ -17,27 +18,28 @@ LOG_LEVEL    = 2
 LOG_PATH     = ' '
 LOG_FILENAME = ' '
 
-traversable  = {'.': '1', 'G': '1', '@': '0', 'O': '0', 'T': '0', 'S': '1', 'W': '0'}
+traversable  = {'.': '0', 'G': '0', '@': '1', 'O': '1', 'T': '1', 'S': '0', 'W': '1'}
 
-abspath      = os.path.abspath('.')
-path_maps    = abspath + '/maps'
-path_scens   = abspath + '/scenarios'
+abs_path       = pathlib.Path(__file__).parent.resolve().__str__()
+path_maps      = abs_path + '/maps'
+path_scenarios = abs_path + '/scenarios'
 
-def massive_tests(n_tests):
-    for dir_scens in os.listdir(path_scens):
-        for filename in os.listdir(f'{path_scens}/{dir_scens}'):
-            with open(f'{path_scens}/{dir_scens}/{filename}') as file:
-                tasks = file.readlines()[-(n_tests + 1):-1]
+def generate_missions(n_tasks):
+    for dir_scenarios in os.listdir(path_scenarios):
+        for filename in os.listdir(f'{path_scenarios}/{dir_scenarios}'):
+            with open(f'{path_scenarios}/{dir_scenarios}/{filename}') as file:
+                # tasks = file.readlines()[-(n_tasks + 1):-1]
+                tasks = file.readlines()[1:n_tasks + 2]
                 
-                for task_n, task in enumerate(tasks):
-                    bucket, map_name = task.split()[0:2]
-                    map_width, map_height, start_x, start_y, finish_x, finish_y = map(int, task.split()[2:-1])
-                    optimal_length = float(task.split()[-1])
+                for task_n, task in enumerate(map(lambda x: x.split(), tasks)):
+                    bucket, map_name = task[0:2]
+                    map_width, map_height, start_x, start_y, finish_x, finish_y = map(int, task[2:-1])
+                    optimal_length = float(task[-1])
 
-                    generate_mission(f'{path_maps}/{dir_scens}/{map_name}', map_width, map_height, start_x, start_y, finish_x, finish_y, name=f'{map_name}_{task_n}')
+                    generate_mission(f'{path_maps}/{dir_scenarios}/{map_name}', map_width, map_height, start_x, start_y, finish_x, finish_y, name=f'{map_name}_{task_n}')
 
-def generate_mission(file_path, map_width, map_height, start_x, start_y, finish_x, finish_y, name=''):
-    with open(file_path, 'r') as file:
+def generate_mission(map_path, map_width, map_height, start_x, start_y, finish_x, finish_y, name=''):
+    with open(map_path, 'r') as file:
         w_lines = ['<?xml version="1.0" encoding="UTF-8" ?>\n', 
                    '<root>\n', 
                    '    <map>\n',
@@ -78,11 +80,11 @@ def generate_mission(file_path, map_width, map_height, start_x, start_y, finish_
                     '    </options>\n',
                     '</root>'])
         if name == '': 
-            name = file_path.split('/')[-1]
+            name = map_path.split('/')[-1]
 
     with open(f'{path_maps}/xml/{name}.xml', 'w') as w_file:
         w_file.writelines(w_lines)
     
 
 if __name__ == '__main__':
-    massive_tests(20)
+    generate_missions(n_tasks=20)
