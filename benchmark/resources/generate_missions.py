@@ -4,10 +4,10 @@ import pathlib
 HEURISTIC_WEIGHT                  = 2
 ANGLE_LIMIT                       = 25
 DISTANCE                          = 5
-DISTANCE_MIN                      = 2
-DECREASE_DISTANCE_FACTOR          = 2
+DISTANCE_MIN                      = 3
+DECREASE_DISTANCE_FACTOR          = 1
 PIVOT_CIRCLE_RADIUS               = 0
-STEP_LIMIT                        = 1_000_000
+STEP_LIMIT                        = 1_000
 POST_SMOOTHING                    = 'false'
 CURVATURE_HEURISTIC_WEIGHT        = 0
 NUM_OF_PARENTS_TO_INCREASE_RADIUS = 2
@@ -29,9 +29,9 @@ def generate_missions(n_tasks):
         for filename in os.listdir(f'{path_scenarios}/{dir_scenarios}'):
             with open(f'{path_scenarios}/{dir_scenarios}/{filename}') as file:
                 # Hard tasks with long paths
-                tasks = file.readlines()[-(n_tasks + 1):-1] 
+                # tasks = file.readlines()[-(n_tasks + 1):-1] 
                 # Easy tasks with short paths
-                # tasks = file.readlines()[1:n_tasks + 2]
+                tasks = file.readlines()[500:n_tasks + 501]
                 
                 for task_n, task in enumerate(map(lambda x: x.split(), tasks)):
                     bucket, map_name = task[0:2]
@@ -67,13 +67,13 @@ def generate_mission(map_path, map_width, map_height, start_x, start_y, finish_x
                     f'        <hweight>{HEURISTIC_WEIGHT}</hweight>\n',
                     f'        <anglelimit>{ANGLE_LIMIT}</anglelimit>\n',
                     f'        <distance>{DISTANCE}</distance>\n',
-                    # f'        <distancemin>{DISTANCE_MIN}</distancemin>\n',
-                    # f'        <decreaseDistanceFactor>{DECREASE_DISTANCE_FACTOR}</decreaseDistanceFactor>\n',
-                    # f'        <pivotCircleRadius>{PIVOT_CIRCLE_RADIUS}</pivotCircleRadius>\n',
+                    f'        <distancemin>{DISTANCE_MIN}</distancemin>\n',
+                    f'        <decreaseDistanceFactor>{DECREASE_DISTANCE_FACTOR}</decreaseDistanceFactor>\n',
+                    f'        <pivotCircleRadius>{PIVOT_CIRCLE_RADIUS}</pivotCircleRadius>\n',
                     f'        <steplimit>{STEP_LIMIT}</steplimit>\n',
-                    # f'        <postsmoothing>{POST_SMOOTHING}</postsmoothing>\n',
-                    # f'        <curvatureHeuristicWeight>{CURVATURE_HEURISTIC_WEIGHT}</curvatureHeuristicWeight>\n',
-                    # f'        <numOfParentsToIncreaseRadius>{NUM_OF_PARENTS_TO_INCREASE_RADIUS}</numOfParentsToIncreaseRadius>\n',
+                    f'        <postsmoothing>{POST_SMOOTHING}</postsmoothing>\n',
+                    f'        <curvatureHeuristicWeight>{CURVATURE_HEURISTIC_WEIGHT}</curvatureHeuristicWeight>\n',
+                    f'        <numOfParentsToIncreaseRadius>{NUM_OF_PARENTS_TO_INCREASE_RADIUS}</numOfParentsToIncreaseRadius>\n',
                     '    </algorithm>\n',
                     '    <options>\n',
                     f'        <loglevel>{LOG_LEVEL}</loglevel>\n',
@@ -84,9 +84,10 @@ def generate_mission(map_path, map_width, map_height, start_x, start_y, finish_x
         if name == '': 
             name = map_path.split('/')[-1]
 
-    with open(f'{path_maps}/xml/{name}.xml', 'w') as w_file:
+    with open(f'{abs_path}/xml/{name}.xml', 'w') as w_file:
         w_file.writelines(w_lines)
     
-
 if __name__ == '__main__':
+    if (not 'xml' in os.listdir(abs_path)):
+        os.mkdir(f'{abs_path}/xml')
     generate_missions(n_tasks=20)

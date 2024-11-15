@@ -703,7 +703,7 @@ void LianSearch::makePrimaryPath(Node curNode) {
 
 bool LianSearch::checkAngle(const Node &dad, const Node &node, const Node &son) const {
     double angle = calcAngle(dad, node, son) * 180 /  CN_PI_CONSTANT;
-    if (fabs(angle - angleLimit) <= CN_EPSILON) {
+    if (fabs(angle) <= angleLimit) {
         return true;
     }
     return false;
