@@ -56,7 +56,7 @@
     </options>
     <log>
         <mapfilename>examples/example1.xml</mapfilename>
-        <summary pathfound="true" numberofsteps="4" nodescreated="42" sections="3" length="15.099019" length_scaled="15.099019" time="3.9884e-05" max_angle="41.820171" accum_angle="53.130104" />
+        <summary pathfound="true" numberofsteps="4" nodescreated="42" sections="3" length="15.099019" length_scaled="15.099019" time="1.1664e-05" max_angle="41.820171" accum_angle="53.130104" />
         <path>
             <row number="0">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
             <row number="1">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>

@@ -639,7 +639,12 @@ bool LianSearch::expand(const Node curNode, const Map &map) {
 
     // when we are near goal point, we should try to reach it
     if (getCost(curNode.i, curNode.j, map.goal_i, map.goal_j) <= curNode.radius) {
-        double angle = calcAngle(*curNode.parent, curNode, Node(map.goal_i, map.goal_j));
+        double angle;
+        if (curNode.parent == nullptr)  {
+            angle = 0;
+        } else {
+            angle = calcAngle(*curNode.parent, curNode, Node(map.goal_i, map.goal_j));
+        }
 
         if (fabs(angle * 180 / CN_PI_CONSTANT) <= angleLimit) {
             Node newNode = Node( map.goal_i,  map.goal_j,
@@ -674,17 +679,26 @@ bool LianSearch::tryToDecreaseRadius(Node& curNode, int width) {
 }
 
 
+// void LianSearch::makePrimaryPath(Node curNode) {
+//     hppath.push_front(curNode);
+//     curNode = *curNode.parent;
+//     do {
+//         hppath.push_front(curNode);
+//         //std::cout << '(' << curNode.i << ", " << curNode.j << ") ";
+//         curNode = *curNode.parent;
+
+//     } while (curNode.parent != nullptr);
+//     hppath.push_front(curNode);
+//     //std::cout << '(' << curNode.i << ", " << curNode.j << ")\n";
+// }
+
 void LianSearch::makePrimaryPath(Node curNode) {
     hppath.push_front(curNode);
-    curNode = *curNode.parent;
-    do {
-        hppath.push_front(curNode);
-        //std::cout << '(' << curNode.i << ", " << curNode.j << ") ";
+    while (curNode.parent != nullptr) {
         curNode = *curNode.parent;
-
-    } while (curNode.parent != nullptr);
+        hppath.push_front(curNode);
+    }
     hppath.push_front(curNode);
-    //std::cout << '(' << curNode.i << ", " << curNode.j << ")\n";
 }
 
 bool LianSearch::checkAngle(const Node &dad, const Node &node, const Node &son) const {
