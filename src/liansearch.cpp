@@ -31,11 +31,12 @@ LianSearch::LianSearch(float angleLimit_, int distance_, float weight_,
     srand(time(NULL));
 }
 
-/**
- * TODO: Compute theoretical upper-bound for number of pushed circle nodes.
- *       Use for determining in advance suitable size of vector, this will
- *       decrease potential drawbacks from having to constantly resize vector. 
- */
+/*
+    TODO: Compute theoretical upper-bound for number of pushed circle nodes.
+    Use for determining in advance suitable size of vector, this will
+    decrease potential drawbacks from having to constantly resize vector. 
+
+*/
 void LianSearch::calculateCircle(int radius) { //here radius - radius of the circle in cells
     circleNodes.clear();
     circleNodes.resize(listOfDistancesSize);
@@ -94,7 +95,7 @@ void LianSearch::calculateCircle(int radius) { //here radius - radius of the cir
     }
 }
 
-/** TODO: Statically resize vector instead of push_back's */ 
+// TODO: Statically resize vector instead of push_back's
 void LianSearch::calculatePivotCircle() {
     pivotCircle.clear();
     int add_i, add_j, num(pivotRadius + 0.5 - CN_EPSILON);
@@ -393,9 +394,7 @@ bool LianSearch::stopCriterion() {
     return false;
 }
 
-/**
- * TODO: Potentially could be replaced with std::hypot
- */
+// TODO: Potentially could be replaced with std::hypot
 double LianSearch::getCost(int a_i, int a_j, int b_i, int b_j) const {
     return sqrt(abs(a_i - b_i) * abs(a_i - b_i) + abs(a_j - b_j) * abs(a_j - b_j));
 }
@@ -677,20 +676,6 @@ bool LianSearch::tryToDecreaseRadius(Node& curNode, int width) {
     }
     return false;
 }
-
-
-// void LianSearch::makePrimaryPath(Node curNode) {
-//     hppath.push_front(curNode);
-//     curNode = *curNode.parent;
-//     do {
-//         hppath.push_front(curNode);
-//         //std::cout << '(' << curNode.i << ", " << curNode.j << ") ";
-//         curNode = *curNode.parent;
-
-//     } while (curNode.parent != nullptr);
-//     hppath.push_front(curNode);
-//     //std::cout << '(' << curNode.i << ", " << curNode.j << ")\n";
-// }
 
 void LianSearch::makePrimaryPath(Node curNode) {
     hppath.push_front(curNode);
