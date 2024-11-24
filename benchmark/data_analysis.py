@@ -49,7 +49,8 @@ data_basic    = pd.DataFrame(dict_basic).transpose()
 data_modified = pd.DataFrame(dict_modified).transpose()
 
 def calculate_ratio(first, second, parameter):
-    return len(second[second[parameter] == first[parameter]]) / len(first) 
+    assert len(first) == len(second), "ERROR: Tables have different number of rows"
+    return sum(first[parameter] == second[parameter]) / len(first) 
 
 def calculate_mean(data, parameter):
     return data[parameter].mean()
@@ -61,7 +62,7 @@ fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(12, 8))
 width = 0.6
 
 # Success Rate
-basic_statistic    = calculate_ratio(data_basic, data_modified, 'path_found')
+basic_statistic    = calculate_ratio(data_basic, data_basic, 'path_found')
 modified_statistic = calculate_ratio(data_basic, data_modified, 'path_found')
 
 ax[0, 0].bar('basic-LIAN', basic_statistic, width)
@@ -69,7 +70,7 @@ ax[0, 0].bar('modified-LIAN', modified_statistic, width)
 ax[0, 0].set_title('Success Rate')
 
 # Path Length
-basic_statistic    = calculate_ratio(data_basic, data_modified, 'length')
+basic_statistic    = calculate_ratio(data_basic, data_basic, 'length')
 modified_statistic = calculate_ratio(data_basic, data_modified, 'length')
 
 ax[0, 1].bar('basic-LIAN', basic_statistic, width)
@@ -77,7 +78,7 @@ ax[0, 1].bar('modified-LIAN', modified_statistic, width)
 ax[0, 1].set_title('Path Length')
 
 # Sections
-basic_statistic    = calculate_ratio(data_basic, data_modified, 'n_sections')
+basic_statistic    = calculate_ratio(data_basic, data_basic, 'n_sections')
 modified_statistic = calculate_ratio(data_basic, data_modified, 'n_sections')
 
 ax[0, 2].bar('basic-LIAN', basic_statistic, width)
@@ -94,7 +95,7 @@ ax[1, 0].set_title('Steps')
 
 # Time
 basic_statistic    = calculate_mean(data_basic, 'time')
-modified_statistic = calculate_mean(data_basic, 'time')
+modified_statistic = calculate_mean(data_modified, 'time')
 
 ax[1, 1].bar('basic-LIAN', 1, width)
 ax[1, 1].bar('modified-LIAN', modified_statistic / basic_statistic, width)
@@ -102,7 +103,7 @@ ax[1, 1].set_title('Time')
 
 # Memory
 basic_statistic    = calculate_max(data_basic, 'n_nodes')
-modified_statistic = calculate_max(data_basic, 'n_nodes')
+modified_statistic = calculate_max(data_modified, 'n_nodes')
 
 ax[1, 2].bar('basic-LIAN', 1, width)
 ax[1, 2].bar('modified-LIAN', modified_statistic / basic_statistic, width)

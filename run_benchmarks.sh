@@ -29,8 +29,6 @@ rm -r ./benchmark/out/logs_basic    ; mkdir ./benchmark/out/logs_basic
 rm -r ./benchmark/out/logs_modified ; mkdir ./benchmark/out/logs_modified
 
 # Create directories for resources
-# mkdir ./benchmark/resources/xml_basic ; mkdir ./benchmark/resources/xml_modified ; python3 benchmark/generate_missions.py
- 
 if [ ! -d  './benchmark/resources/xml_basic' ] || [ ! -d './benchmark/resources/xml_modified' ]
 then
     if [ ! -d  './benchmark/resources/xml_basic' ]
