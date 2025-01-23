@@ -10,8 +10,8 @@
 #include <sstream>
 #include <string>
 
-class Config {
-
+class Config 
+{
 private:
     int N;
     float *searchParams;

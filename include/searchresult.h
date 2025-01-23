@@ -4,21 +4,28 @@
 #include "node.h"
 #include <vector>
 
-struct SearchResult {
-
+struct SearchResult 
+{
     bool pathfound;
     float pathlength;
-    std::list<Node> hppath,lppath;
+    
+    std::list<Node> hppath, lppath;
+    
     unsigned int nodescreated;
     unsigned int numberofsteps;
+    
     std::vector<float> angles;
+    
     float accum_angle;
-    double time;
     float max_angle;
-    int sections;
+    int   sections;
+    
+    double time;
 
-    SearchResult() : pathfound(false), pathlength(0), nodescreated(0),
-                     numberofsteps(0), time(0), max_angle(0), sections(0) {
+    SearchResult() 
+        : pathfound(false), pathlength(0), nodescreated(0),
+            numberofsteps(0), time(0), max_angle(0), sections(0) 
+    {
         hppath.clear();
         lppath.clear();
         angles.clear();

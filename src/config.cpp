@@ -1,6 +1,8 @@
 #include "config.h"
 
-Config::Config() : N(-1), searchParams(nullptr) {}
+Config::Config()
+    : N(-1), searchParams(nullptr)
+{}
 
 Config::Config(int numParams, float* paramArray) {
     N = numParams;

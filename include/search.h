@@ -7,14 +7,16 @@
 #include "searchresult.h"
 #include "xmllogger.h"
 
-class Search {
-
+class Search 
+{
 public:
-    Search() {}
-    virtual ~Search () {}
-    virtual SearchResult startSearch(Logger *Log, const Map &map) = 0;
-
     SearchResult sresult;
+    
+    Search() {}
+    
+    virtual ~Search() {}
+    
+    virtual SearchResult startSearch(Logger* Log, const Map& map) = 0;
 };
 
 #endif

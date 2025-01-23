@@ -10,20 +10,24 @@
 #include <sstream>
 #include <string>
 
-class Map {
-
+class Map 
+{
 private:
-    int ** Grid;
-    int height, width;
+    int** Grid;
+
+    int height;
+    int width;
+    
     double CellSize;
 
 public:
     Map();
     ~Map();
+    
     bool getMap(const char* FileName);
 
-    bool CellIsTraversable (int curr_i, int curr_j) const;
-    bool CellOnGrid (int curr_i, int curr_j) const;
+    bool CellIsTraversable(int curr_i, int curr_j) const;
+    bool CellOnGrid(int curr_i, int curr_j) const;
     bool CellIsObstacle(int curr_i, int curr_j) const;
 
     int* operator [] (int i);

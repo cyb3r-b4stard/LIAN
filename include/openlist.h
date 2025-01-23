@@ -7,8 +7,8 @@
 
 #include <vector>
 
-class OpenList {
-
+class OpenList 
+{
 public:
     OpenList();
     OpenList(int size_);
@@ -28,6 +28,7 @@ public:
 
 private:
     std::list<Node> *elements;
+    
     size_t size;
     size_t height;
 };

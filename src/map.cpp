@@ -1,20 +1,22 @@
 #include "map.h"
 
-Map::Map() : height(-1), width(-1), start_i(-1), start_j(-1), goal_i(-1), goal_j(-1), Grid(nullptr) {}
-Map::~Map()
-{	
-    if(Grid) {
-        for(int i = 0; i < height; i++) {
+Map::Map()
+    : height(-1), width(-1), start_i(-1), start_j(-1), goal_i(-1), goal_j(-1), Grid(nullptr)
+{}
+
+Map::~Map() {
+    if (Grid) {
+        for (int i = 0; i < height; i++) {
             delete[] Grid[i];
         }
         delete[] Grid;
     }
 }
 
-int * Map::operator [] (int i) {
+int* Map::operator[] (int i) {
     return Grid[i];
 }
-const int * Map::operator [] (int i) const {
+const int* Map::operator[] (int i) const {
     return Grid[i];
 }
 
@@ -45,14 +47,14 @@ double Map::getCellSize() const {
 bool Map::getMap(const char* FileName) {
     const char* grid = 0;
     std::string value;
-    TiXmlElement *root = 0;
+    TiXmlElement* root = 0;
     std::string text = "";
     bool hasGrid = false;
     std::stringstream stream;
     TiXmlDocument doc(FileName);
-    
-    if(!doc.LoadFile()) {
-        std::cout << "Error openning input XML file."<<std::endl;
+
+    if (!doc.LoadFile()) {
+        std::cout << "Error openning input XML file." << std::endl;
         return false;
     } else {
         root = doc.FirstChildElement(CNS_TAG_ROOT);
@@ -62,14 +64,14 @@ bool Map::getMap(const char* FileName) {
         return false;
     }
 
-    TiXmlElement *map = root->FirstChildElement(CNS_TAG_MAP);
+    TiXmlElement* map = root->FirstChildElement(CNS_TAG_MAP);
     if (!map) {
         std::cout << "Error! No '" << CNS_TAG_MAP << "' element found in XML file." << std::endl;
         return false;
     }
 
-    TiXmlNode *node = 0;
-    TiXmlElement *element = 0;
+    TiXmlNode* node = 0;
+    TiXmlElement* element = 0;
 
     node = map->FirstChild();
 
@@ -80,7 +82,7 @@ bool Map::getMap(const char* FileName) {
         CellSize = 1;
 
         if (!hasGrid && height > 0 && width > 0) {
-            Grid = new int * [height];
+            Grid = new int* [height];
             for (int i = 0; i < height; i++) {
                 Grid[i] = new int[width];
             }
@@ -117,7 +119,7 @@ bool Map::getMap(const char* FileName) {
             stream.str("");
 
             if (CellSize <= 0) {
-                std::cout << "Warning! Wrong '"<< CNS_TAG_CELLSIZE << "' value. Set to default value: 1." << std::endl;
+                std::cout << "Warning! Wrong '" << CNS_TAG_CELLSIZE << "' value. Set to default value: 1." << std::endl;
                 CellSize = 1;
             }
         } else if (value == CNS_TAG_SX) {
@@ -172,7 +174,7 @@ bool Map::getMap(const char* FileName) {
 
             element = node->FirstChildElement(CNS_TAG_ROW);
 
-            int i=0;
+            int i = 0;
             while (i < height) {
                 if (!element) {
                     std::cout << "Not enough '" << CNS_TAG_ROW << "' in '" << CNS_TAG_GRID << "' given." << std::endl;
@@ -184,7 +186,7 @@ bool Map::getMap(const char* FileName) {
                 text = "";
                 int j = 0;
 
-                for(k = 0; k < (strlen(grid)); k++) {
+                for (k = 0; k < (strlen(grid)); k++) {
                     if (grid[k] == ' ') {
                         stream << text;
                         stream >> Grid[i][j];

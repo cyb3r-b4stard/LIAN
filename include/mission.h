@@ -8,11 +8,10 @@
 #include "searchresult.h"
 #include "xmllogger.h"
 
-
 #include <string>
 
-class Mission {
-
+class Mission
+{
 public:
     Mission(const char* fName);
     ~Mission();
@@ -26,11 +25,12 @@ public:
     void saveSearchResultsToLog();
 
 private:
-    Map         map;
-    Config      config;
+    Map map;
 
-    Search      *search;
-    Logger      *logger;
+    Config config;
+
+    Search* search;
+    Logger* logger;
 
     const char* fileName;
 
