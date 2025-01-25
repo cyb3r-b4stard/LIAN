@@ -23,7 +23,7 @@ public:
 
     float getParamValue(int i) const;
 
-    bool getConfig(const char* FileName);
+    bool getConfig(const char* fileName);
 };
 
 #endif

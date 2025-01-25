@@ -13,7 +13,7 @@
 class Mission
 {
 public:
-    Mission(const char* fName);
+    Mission(const char* fileName);
     ~Mission();
 
     bool getMap();

@@ -14,7 +14,7 @@ def extract_data(dict, line):
     if line.strip().startswith('<summary'):
         path_found, n_steps, n_nodes, n_sections, length, length_scaled, time, max_angle, accum_angle = line.split()[1:10]
 
-        path_found    = bool(path_found.split('=')[1].strip('"'))
+        path_found    = path_found.split('=')[1].strip('"') == 'true'
         n_nodes       = int(n_nodes.split('=')[1].strip('"'))
         n_steps       = int(n_steps.split('=')[1].strip('"'))
         n_sections    = int(n_sections.split('=')[1].strip('"'))

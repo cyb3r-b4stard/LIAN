@@ -13,24 +13,24 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 set(SOURCE_FILES 
 	main.cpp
 	src/liansearch.cpp
-	src/openlist.cpp
 	src/config.cpp
 	src/map.cpp
 	src/mission.cpp
-	src/xmllogger.cpp)
+	src/xmllogger.cpp
+	src/searchtree.cpp)
 
 set(HEADER_FILES
 	include/searchresult.h
 	include/gl_const.h
 	include/liansearch.h
 	include/node.h
-	include/openlist.h
 	include/config.h
 	include/map.h
 	include/logger.h
 	include/mission.h
 	include/search.h
-	include/xmllogger.h)
+	include/xmllogger.h
+	include/searchtree.h)
 
 add_subdirectory(tinyxml)
 

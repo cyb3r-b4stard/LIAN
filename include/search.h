@@ -10,13 +10,13 @@
 class Search 
 {
 public:
-    SearchResult sresult;
+    SearchResult sResult;
     
     Search() {}
     
     virtual ~Search() {}
     
-    virtual SearchResult startSearch(Logger* Log, const Map& map) = 0;
+    virtual SearchResult startSearch(Logger* log, const Map& map) = 0;
 };
 
 #endif

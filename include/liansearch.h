@@ -4,8 +4,8 @@
 #include "gl_const.h"
 #include "map.h"
 #include "node.h"
-#include "openlist.h"
 #include "search.h"
+#include "searchtree.h"
 
 #include <chrono>
 #include <cmath>
@@ -24,7 +24,7 @@ public:
         int distanceMin_, double PivotRadius_, int numOfParentsToIncreaseRadius_);
 
     ~LianSearch();
-    SearchResult startSearch(Logger* Log, const Map& map); // General searching algorithm
+    SearchResult startSearch(Logger* log, const Map& map); // General searching algorithm
 
 private:
 
@@ -40,7 +40,7 @@ private:
 
     float weight;  // Heuristics weight
 
-    bool postsmoother; // Smoothing the path after the algorithm
+    bool postSmoother; // Smoothing the path after the algorithm
 
     // Heurisic coefficient:
     // If there is heuristic that checks deviation of trajectory from line on each
@@ -51,22 +51,21 @@ private:
 
     unsigned int stepLimit; // Maximum number of iterations, allowed for the algorithm
 
-    unsigned int closeSize; // Number of elements in close (elements that were already examined)
+    // unsigned int closeSize; // Number of elements in close (elements that were already examined)
 
     float decreaseDistanceFactor; // Value for decreasing the initial distance value
 
     int distanceMin; // Minimal distance value
 
-    std::vector<std::vector<circleNode> > circleNodes; // Virtual nodes that create circle around the cell
+    std::vector<std::vector<circleNode>> circleNodes; // Virtual nodes that create circle around the cell
 
-    std::vector<std::pair<int, int> > pivotCircle;  // Vector of nodes (shifts) for pivot security check
+    std::vector<std::pair<int, int>> pivotCircle;  // Vector of nodes (shifts) for pivot security check
 
     std::vector<float> angles;
 
-    std::list<Node> lppath, hppath; // Final path in two representations
-    OpenList open; // Open : list of nodes waiting for expanding
-
-    std::unordered_multimap<int, Node> close; // Close: list of nodes that were already expanded
+    std::list<Node> lpPath, hpPath; // Final path in two representations
+    
+    SearchTree searchTree;
 
     // Method that calculate Bresenham's Circle (center - (0, 0)) and writing list of created nodes to circleNodes
     void calculateCircle(int radius); // Radius - radius of the circle in cells

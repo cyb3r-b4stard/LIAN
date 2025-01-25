@@ -6,28 +6,28 @@
 
 struct SearchResult 
 {
-    bool pathfound;
-    float pathlength;
+    bool pathFound;
+    float pathLength;
     
-    std::list<Node> hppath, lppath;
+    std::list<Node> hpPath, lpPath;
     
-    unsigned int nodescreated;
-    unsigned int numberofsteps;
+    unsigned int nodesCreated;
+    unsigned int numberOfSteps;
     
     std::vector<float> angles;
     
-    float accum_angle;
-    float max_angle;
+    float accumAngle;
+    float maxAngle;
     int   sections;
     
     double time;
 
     SearchResult() 
-        : pathfound(false), pathlength(0), nodescreated(0),
-            numberofsteps(0), time(0), max_angle(0), sections(0) 
+        : pathFound(false), pathLength(0), nodesCreated(0),
+            numberOfSteps(0), time(0), maxAngle(0), sections(0) 
     {
-        hppath.clear();
-        lppath.clear();
+        hpPath.clear();
+        lpPath.clear();
         angles.clear();
     }
 };

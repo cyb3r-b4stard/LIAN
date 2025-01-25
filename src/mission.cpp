@@ -1,7 +1,7 @@
 #include "mission.h"
 
-Mission::Mission(const char* fName)
-    : fileName(fName), search(nullptr), logger(nullptr)
+Mission::Mission(const char* fileName)
+    : fileName(fileName), search(nullptr), logger(nullptr)
 {
 }
 
@@ -52,26 +52,26 @@ void Mission::startSearch() {
 
 void Mission::printSearchResultsToConsole() {
     std::cout << "Path ";
-    if (!sr.pathfound)
+    if (!sr.pathFound)
         std::cout << "NOT ";
     std::cout << "found!\n";
-    std::cout << "nodescreated" << sr.nodescreated << "\n";
-    std::cout << "numberofsteps=" << sr.numberofsteps << "\n";
-    if (sr.pathfound) {
-        std::cout << "pathlength=" << sr.pathlength << "\n";
-        std::cout << "length_scaled=" << sr.pathlength * map.getCellSize() << "\n";
+    std::cout << "nodescreated" << sr.nodesCreated << "\n";
+    std::cout << "numberofsteps=" << sr.numberOfSteps << "\n";
+    if (sr.pathFound) {
+        std::cout << "pathlength=" << sr.pathLength << "\n";
+        std::cout << "length_scaled=" << sr.pathLength * map.getCellSize() << "\n";
     }
     std::cout << "time=" << sr.time << "\n";
 }
 
 void Mission::saveSearchResultsToLog() {
-    logger->writeToLogSummary(sr.hppath, sr.numberofsteps, sr.nodescreated, sr.pathlength, sr.pathlength * map.getCellSize(),
-        sr.time, sr.max_angle, sr.accum_angle, sr.sections);
+    logger->writeToLogSummary(sr.hpPath, sr.numberOfSteps, sr.nodesCreated, sr.pathLength, sr.pathLength * map.getCellSize(),
+        sr.time, sr.maxAngle, sr.accumAngle, sr.sections);
 
-    if (sr.pathfound) {
-        logger->writeToLogPath(sr.lppath, sr.angles);
-        logger->writeToLogMap(map, sr.lppath);
-        logger->writeToLogHpLevel(sr.hppath);
+    if (sr.pathFound) {
+        logger->writeToLogPath(sr.lpPath, sr.angles);
+        logger->writeToLogMap(map, sr.lpPath);
+        logger->writeToLogHpLevel(sr.hpPath);
     }
 
     logger->saveLog();

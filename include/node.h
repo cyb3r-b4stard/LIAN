@@ -4,7 +4,6 @@
 #include "gl_const.h"
 
 #include <limits>
-#include <list>
 #include <iostream>
 #include <cmath>
 
@@ -31,24 +30,24 @@ struct Node
 
     int     i, j;
     int     radius;
-    float   F;
+    float   f;
     float   g;
 
     double angle;
 
     Node() 
-        : i(-1), j(-1), F(std::numeric_limits<float>::infinity()), g(std::numeric_limits<float>::infinity()),
+        : i(-1), j(-1), f(std::numeric_limits<float>::infinity()), g(std::numeric_limits<float>::infinity()),
             parent(nullptr), radius(CN_PTD_D), angle(0) 
     {}
 
     Node(int x, int y, float g_ = std::numeric_limits<float>::infinity(), double h_ = std::numeric_limits<float>::infinity(),
-        float radius_ = CN_PTD_D, Node* parent_ = nullptr, float cweightdist_ = 0, double ang_ = 0) 
+        float radius_ = CN_PTD_D, Node* parent_ = nullptr, float cWeightDist_ = 0, double ang_ = 0) 
         : i(x), j(y), g(g_), radius(radius_), parent(parent_), angle(ang_)
     {
         if (parent) {
-            F = g + h_ + cweightdist_ * fabs(ang_ - parent->angle);
+            f = g + h_ + cWeightDist_ * fabs(ang_ - parent->angle);
         } else {
-            F = g + h_;
+            f = g + h_;
         }
     }
 
@@ -59,7 +58,7 @@ struct Node
     inline Node& operator=(const Node& other) {
         i = other.i;
         j = other.j;
-        F = other.F;
+        f = other.f;
         g = other.g;
         parent = other.parent;
         angle = other.angle;

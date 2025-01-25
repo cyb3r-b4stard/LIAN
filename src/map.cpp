@@ -1,34 +1,34 @@
 #include "map.h"
 
 Map::Map()
-    : height(-1), width(-1), start_i(-1), start_j(-1), goal_i(-1), goal_j(-1), Grid(nullptr)
+    : height(-1), width(-1), start_i(-1), start_j(-1), goal_i(-1), goal_j(-1), grid(nullptr)
 {}
 
 Map::~Map() {
-    if (Grid) {
+    if (grid) {
         for (int i = 0; i < height; i++) {
-            delete[] Grid[i];
+            delete[] grid[i];
         }
-        delete[] Grid;
+        delete[] grid;
     }
 }
 
 int* Map::operator[] (int i) {
-    return Grid[i];
+    return grid[i];
 }
 const int* Map::operator[] (int i) const {
-    return Grid[i];
+    return grid[i];
 }
 
-bool Map::CellIsTraversable(int curr_i, int curr_j) const {
-    return (Grid[curr_i][curr_j] != CN_OBSTL);
+bool Map::cellIsTraversable(int curr_i, int curr_j) const {
+    return (grid[curr_i][curr_j] != CN_OBSTL);
 }
 
-bool Map::CellIsObstacle(int curr_i, int curr_j) const {
-    return (Grid[curr_i][curr_j] == CN_OBSTL);
+bool Map::cellIsObstacle(int curr_i, int curr_j) const {
+    return (grid[curr_i][curr_j] == CN_OBSTL);
 }
 
-bool Map::CellOnGrid(int curr_i, int curr_j) const {
+bool Map::cellOnGrid(int curr_i, int curr_j) const {
     return (curr_i < height && curr_i >= 0 && curr_j < width && curr_j >= 0);
 }
 
@@ -41,17 +41,17 @@ int Map::getWidth() const {
 }
 
 double Map::getCellSize() const {
-    return CellSize;
+    return cellSize;
 }
 
-bool Map::getMap(const char* FileName) {
-    const char* grid = 0;
+bool Map::getMap(const char* fileName) {
+    const char* charGrid = 0;
     std::string value;
     TiXmlElement* root = 0;
     std::string text = "";
     bool hasGrid = false;
     std::stringstream stream;
-    TiXmlDocument doc(FileName);
+    TiXmlDocument doc(fileName);
 
     if (!doc.LoadFile()) {
         std::cout << "Error openning input XML file." << std::endl;
@@ -79,12 +79,12 @@ bool Map::getMap(const char* FileName) {
         element = node->ToElement();
         value = node->Value();
         std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-        CellSize = 1;
+        cellSize = 1;
 
         if (!hasGrid && height > 0 && width > 0) {
-            Grid = new int* [height];
+            grid = new int* [height];
             for (int i = 0; i < height; i++) {
-                Grid[i] = new int[width];
+                grid[i] = new int[width];
             }
 
             hasGrid = true;
@@ -114,13 +114,13 @@ bool Map::getMap(const char* FileName) {
         } else if (value == CNS_TAG_CELLSIZE) {
             text = element->GetText();
             stream << text;
-            stream >> CellSize;
+            stream >> cellSize;
             stream.clear();
             stream.str("");
 
-            if (CellSize <= 0) {
+            if (cellSize <= 0) {
                 std::cout << "Warning! Wrong '" << CNS_TAG_CELLSIZE << "' value. Set to default value: 1." << std::endl;
-                CellSize = 1;
+                cellSize = 1;
             }
         } else if (value == CNS_TAG_SX) {
             text = element->GetText();
@@ -181,25 +181,25 @@ bool Map::getMap(const char* FileName) {
                     return false;
                 }
 
-                grid = element->GetText();
+                charGrid = element->GetText();
                 int k = 0;
                 text = "";
                 int j = 0;
 
-                for (k = 0; k < (strlen(grid)); k++) {
-                    if (grid[k] == ' ') {
+                for (k = 0; k < (strlen(charGrid)); k++) {
+                    if (charGrid[k] == ' ') {
                         stream << text;
-                        stream >> Grid[i][j];
+                        stream >> grid[i][j];
                         stream.clear();
                         stream.str("");
                         text = "";
                         j++;
                     } else {
-                        text += grid[k];
+                        text += charGrid[k];
                     }
                 }
                 stream << text;
-                stream >> Grid[i][j];
+                stream >> grid[i][j];
                 stream.clear();
                 stream.str("");
 
