@@ -67,7 +67,10 @@ struct Node
     }
 
     inline bool operator==(const Node& p) const {
-        return i == p.i && j == p.j && parent->i == p.parent->i && parent->j == p.parent->j;
+        if (this->parent && p.parent) {
+            return i == p.i && j == p.j && parent->i == p.parent->i && parent->j == p.parent->j;
+        }
+        return i == p.i && j == p.j;
     }
 
     inline bool operator!=(const Node& p) const {
@@ -76,6 +79,14 @@ struct Node
 
     int convolution(int width) const {
         return i * width + j;
+    }
+};
+
+template<>
+struct std::hash<Node> 
+{
+    std::size_t operator()(const Node& node) const noexcept {
+        return std::hash<int>{}(node.i * 971 + node.j);
     }
 };
 

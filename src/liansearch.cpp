@@ -448,7 +448,7 @@ SearchResult LianSearch::startSearch(Logger* logger, const Map& map) {
     while (!stopCriterion()) { // main cycle of the search
         curNode = searchTree.getMin();
         
-        searchTree.addToClosed(curNode, map.getWidth());
+        searchTree.addToClosed(curNode);
 
         if (logger->logLevel == CN_LOGLVL_ITER) logger->writeToLogIter(searchTree.getClosedSize(), curNode);
 
@@ -549,7 +549,7 @@ void LianSearch::update(const Node curNode, Node newNode, bool& successors, cons
     if (!checkLineSegment(map, *newNode.parent, newNode)) return;
     if (pivotRadius > 0 && (newNode.i != map.goal_i || newNode.j != map.goal_j) && !checkPivotCircle(map, newNode)) return;
 
-    auto it = searchTree.closed.find(newNode.convolution(map.getWidth()));
+    auto it = searchTree.closed.find(newNode);
 
     if (it != searchTree.closed.end()) {
         auto range = searchTree.closed.equal_range(it->first);
@@ -573,7 +573,7 @@ bool LianSearch::expand(const Node curNode, const Map& map) {
     std::vector<circleNode> curCircleNodes = circleNodes[curDist];
 
     bool successorsAreFine = false;
-    auto parent = &(searchTree.closed.find(curNode.convolution(map.getWidth()))->second);
+    auto parent = &(searchTree.closed.find(curNode)->second);
 
     if (curNode.parent != nullptr) {
         int nodeStraightAhead = (int)round(curNode.angle * circleNodes[curDist].size() / 360) % circleNodes[curDist].size();
@@ -682,7 +682,7 @@ bool LianSearch::tryToDecreaseRadius(Node& curNode, int width) {
     if (i < listOfDistancesSize - 1) {
         curNode.radius = listOfDistances[i + 1];
         
-        auto it = searchTree.closed.find(curNode.convolution(width));
+        auto it = searchTree.closed.find(curNode);
         auto range = searchTree.closed.equal_range(it->first);
         
         for (auto it = range.first; it != range.second; ++it) {
@@ -760,7 +760,7 @@ void LianSearch::makeSecondaryPath() {
         lpPath.insert(lpPath.begin(), ++lineSegment.begin(), lineSegment.end());
         parent = *it++;
     }
-    lpPath.push_front(hpPath.back());
+    lpPath.emplace_front(hpPath.back());
     std::reverse(std::begin(lpPath), std::end(lpPath));
 }
 

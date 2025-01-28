@@ -27,12 +27,13 @@ public:
 private:
     Map map;
 
+    const char* fileName;
+    
     Config config;
 
     Search* search;
     Logger* logger;
 
-    const char* fileName;
 
     SearchResult sr;
 };

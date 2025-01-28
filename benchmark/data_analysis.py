@@ -24,6 +24,16 @@ def extract_data(dict, line):
         max_angle     = float(max_angle.split('=')[1].strip('"'))
         accum_angle   = float(accum_angle.split('=')[1].strip('"'))
 
+        if not path_found:
+            n_nodes = 0
+            n_steps = 0
+            n_sections = 0
+            length = 0
+            length_scaled = 0
+            time = 0
+            max_angle = 0
+            accum_angle = 0
+            
         dict[filename] = {
             'path_found': path_found,
             'n_nodes': n_nodes,

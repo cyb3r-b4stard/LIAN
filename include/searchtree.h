@@ -8,9 +8,16 @@
 #include <unordered_map>
 #include <vector>
 #include <list>
+#include <queue>
 
 class SearchTree 
 {
+    struct Compare {
+        bool operator () (const Node& lhs, const Node& rhs) {
+            return lhs.f > rhs.f;
+        }
+    };
+
 public:
     SearchTree();
     SearchTree(int openSize_);
@@ -26,14 +33,14 @@ public:
     bool isClosedEmpty() const;
 
     void addToOpen(Node node);
-    void addToClosed(Node node, int convNumber);
+    void addToClosed(Node node);
 
     Node getMin();
 
     TiXmlElement *writeToXml(TiXmlElement* xmlElement, TiXmlNode* child) const;
 
-    std::list<Node>* open;
-    std::unordered_multimap<int, Node> closed;
+    std::priority_queue<Node, std::vector<Node>, Compare>* open;
+    std::unordered_multimap<Node, Node> closed;
 
 private:
     size_t openSize;
