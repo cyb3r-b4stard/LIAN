@@ -8,9 +8,7 @@ Config::Config(int numParams, float* paramArray) {
     N = numParams;
     searchParams = new float[N];
 
-    for (int i = 0; i < N; ++i) {
-        searchParams[i] = paramArray[i];
-    }
+    std::copy(paramArray, paramArray + N, searchParams);
 }
 
 Config::~Config() {

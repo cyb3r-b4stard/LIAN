@@ -45,13 +45,18 @@ double Map::getCellSize() const {
 }
 
 bool Map::getMap(const char* fileName) {
-    const char* charGrid = 0;
-    std::string value;
-    TiXmlElement* root = 0;
-    std::string text = "";
-    bool hasGrid = false;
     std::stringstream stream;
+
     TiXmlDocument doc(fileName);
+    
+    TiXmlElement* root = 0;
+    
+    std::string value;
+    std::string text = "";
+
+    const char* charGrid = 0;
+    
+    bool hasGrid = false;
 
     if (!doc.LoadFile()) {
         std::cout << "Error openning input XML file." << std::endl;
@@ -83,6 +88,7 @@ bool Map::getMap(const char* fileName) {
 
         if (!hasGrid && height > 0 && width > 0) {
             grid = new int* [height];
+            
             for (int i = 0; i < height; i++) {
                 grid[i] = new int[width];
             }

@@ -20,11 +20,8 @@ class SearchTree
 
 public:
     SearchTree();
-    SearchTree(int openSize_);
 
     ~SearchTree();
-
-    void resizeOpen(int openSize_);
 
     size_t getOpenSize() const;
     size_t getClosedSize() const;
@@ -37,9 +34,9 @@ public:
 
     Node getMin();
 
-    TiXmlElement *writeToXml(TiXmlElement* xmlElement, TiXmlNode* child) const;
+    TiXmlElement* writeToXml(TiXmlElement* xmlElement, TiXmlNode* child) const;
 
-    std::priority_queue<Node, std::vector<Node>, Compare>* open;
+    std::priority_queue<Node, std::vector<Node>, Compare> open;
     std::unordered_multimap<Node, Node> closed;
 
 private:

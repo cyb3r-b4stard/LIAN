@@ -14,11 +14,11 @@ class Config
 {
 private:
     int N;
-    float *searchParams;
+    float* searchParams;
 
 public:
     Config();
-    Config(int numParams, float *paramArray);
+    Config(int numParams, float* paramArray);
     ~Config();
 
     float getParamValue(int i) const;

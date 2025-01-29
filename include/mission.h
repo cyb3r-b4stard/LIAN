@@ -35,7 +35,7 @@ private:
     Logger* logger;
 
 
-    SearchResult sr;
+    SearchResult sResult;
 };
 
 #endif

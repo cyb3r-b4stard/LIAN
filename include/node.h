@@ -28,10 +28,10 @@ struct Node
 {
     Node* parent;
 
-    int     i, j;
-    int     radius;
-    float   f;
-    float   g;
+    int   i, j;
+    int   radius;
+    float f;
+    float g;
 
     double angle;
 
@@ -51,8 +51,8 @@ struct Node
         }
     }
 
-    ~Node() {
-        parent = nullptr;
+    ~Node() { 
+        parent = nullptr; 
     }
 
     inline Node& operator=(const Node& other) {

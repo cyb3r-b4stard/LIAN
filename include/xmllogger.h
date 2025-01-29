@@ -19,6 +19,7 @@ private:
 
 public:
     XmlLogger(float logLevel);
+    
     ~XmlLogger();
 
     bool getLog(const char* fileName);
