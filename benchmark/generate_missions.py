@@ -9,7 +9,7 @@ DISTANCE                          = 5
 DISTANCE_MIN                      = 3
 DECREASE_DISTANCE_FACTOR          = 1
 PIVOT_CIRCLE_RADIUS               = 0
-STEP_LIMIT                        = 20_000
+STEP_LIMIT                        = 1_000_000
 POST_SMOOTHING                    = 'false'
 CURVATURE_HEURISTIC_WEIGHT        = 0
 NUM_OF_PARENTS_TO_INCREASE_RADIUS = 2
@@ -27,23 +27,40 @@ log_path       = pathlib.Path(__file__).parent.resolve().parent.resolve().__str_
 path_maps      = abs_path + '/resources/maps'
 path_scenarios = abs_path + '/resources/scenarios'
 
-def generate_missions(n_tasks, algorithm_type):
-    for dir_scenarios in os.listdir(path_scenarios):
-        for filename in os.listdir(f'{path_scenarios}/{dir_scenarios}'):
-            with open(f'{path_scenarios}/{dir_scenarios}/{filename}') as file:
+def generate_missions(n_tasks, algorithm_type, maps_family=None):
+    if maps_family is not None:
+        for filename in os.listdir(f'{path_scenarios}/{maps_family}'):
+            with open(f'{path_scenarios}/{maps_family}/{filename}') as file:
                 # Hard tasks with long paths
-                # tasks = file.readlines()[-(n_tasks + 1):-1] 
+                tasks = file.readlines()[-(n_tasks + 1):-1] 
                 # Medium tasks with average-length paths
                 # tasks = file.readlines()[500:n_tasks + 501]
                 # Easy tasks with short paths
-                tasks = file.readlines()[1:n_tasks + 1]
+                # tasks = file.readlines()[1:n_tasks + 1]
                 
                 for task_n, task in enumerate(map(lambda x: x.split(), tasks)):
                     bucket, map_name = task[0:2]
                     map_width, map_height, start_x, start_y, finish_x, finish_y = map(int, task[2:-1])
                     optimal_length = float(task[-1])
 
-                    generate_mission(f'{path_maps}/{dir_scenarios}/{map_name}', map_width, map_height, start_x, start_y, finish_x, finish_y, algorithm_type, name=f'{map_name}_{task_n}')
+                    generate_mission(f'{path_maps}/{maps_family}/{map_name}', map_width, map_height, start_x, start_y, finish_x, finish_y, algorithm_type, name=f'{map_name}_{task_n}')
+    else:
+        for dir_scenarios in os.listdir(path_scenarios):
+            for filename in os.listdir(f'{path_scenarios}/{dir_scenarios}'):
+                with open(f'{path_scenarios}/{dir_scenarios}/{filename}') as file:
+                    # Hard tasks with long paths
+                    tasks = file.readlines()[-(n_tasks + 1):-1] 
+                    # Medium tasks with average-length paths
+                    # tasks = file.readlines()[500:n_tasks + 501]
+                    # Easy tasks with short paths
+                    # tasks = file.readlines()[1:n_tasks + 1]
+                    
+                    for task_n, task in enumerate(map(lambda x: x.split(), tasks)):
+                        bucket, map_name = task[0:2]
+                        map_width, map_height, start_x, start_y, finish_x, finish_y = map(int, task[2:-1])
+                        optimal_length = float(task[-1])
+
+                        generate_mission(f'{path_maps}/{dir_scenarios}/{map_name}', map_width, map_height, start_x, start_y, finish_x, finish_y, algorithm_type, name=f'{map_name}_{task_n}')
 
 def generate_mission(map_path, map_width, map_height, start_x, start_y, finish_x, finish_y, algorithm_type, name=''):
     with open(map_path, 'r') as file:
@@ -93,5 +110,8 @@ def generate_mission(map_path, map_width, map_height, start_x, start_y, finish_x
         w_file.writelines(w_lines)
     
 if __name__ == '__main__':
+    maps_family = 'cities'
     generate_missions(n_tasks=N_TASKS, algorithm_type='basic')
     generate_missions(n_tasks=N_TASKS, algorithm_type='modified')
+    # generate_missions(n_tasks=N_TASKS, algorithm_type='basic', maps_family=maps_family)
+    # generate_missions(n_tasks=N_TASKS, algorithm_type='modified', maps_family=maps_family)

@@ -1,14 +1,14 @@
 #include "config.h"
 
-Config::Config() : N(-1), searchParams(nullptr) {}
+Config::Config()
+    : N(-1), searchParams(nullptr)
+{}
 
 Config::Config(int numParams, float* paramArray) {
     N = numParams;
     searchParams = new float[N];
 
-    for (int i = 0; i < N; ++i) {
-        searchParams[i] = paramArray[i];
-    }
+    std::copy(paramArray, paramArray + N, searchParams);
 }
 
 Config::~Config() {
@@ -21,22 +21,22 @@ float Config::getParamValue(int i) const {
     return searchParams[i];
 }
 
-bool Config::getConfig(const char* FileName) {
+bool Config::getConfig(const char* fileName) {
     std::string value;
     float angle;
     int distance;
     float weight;
-    unsigned int steplimit;
-    float loglevel;
-    float curvatureHeuriscitWeight;
+    unsigned int stepLimit;
+    float logLevel;
+    float curvatureHeuristicWeight;
     double pivotRadius = 0;
     float decreaseDistance;
     int distanceMin;
     int numOfParentsToIncreaseRadius;
-    bool postsmoother;
+    bool postSmoother;
     std::stringstream stream;
 
-    TiXmlDocument doc(FileName);
+    TiXmlDocument doc(fileName);
     if (!doc.LoadFile()) {
         std::cout << "Error openning input XML file." << std::endl;
         return false;
@@ -150,38 +150,38 @@ bool Config::getConfig(const char* FileName) {
     if (!element) {
         std::cout << "Warning! No '" << CNS_TAG_STEPLIMIT << "' element found inside '" << CNS_TAG_ALGORITHM
             << "' section. Set to default value: 0." << std::endl;
-        steplimit = 0;
+        stepLimit = 0;
     } else {
         value = element->GetText();
-        if (value[0] == '-')  steplimit = 0;
+        if (value[0] == '-')  stepLimit = 0;
         else {
             stream << value;
-            stream >> steplimit;
+            stream >> stepLimit;
             stream.clear();
             stream.str("");
         }
     }
-    searchParams[CN_PT_SL] = steplimit;
+    searchParams[CN_PT_SL] = stepLimit;
 
     element = algorithm->FirstChildElement(CNS_TAG_CURVHEURWEIGHT);
     if (!element) {
         std::cout << "Warning! No '" << CNS_TAG_CURVHEURWEIGHT << "' element found inside '" << CNS_TAG_ALGORITHM
             << "' section. Set to default value: 0." << std::endl;
-        curvatureHeuriscitWeight = 0;
+        curvatureHeuristicWeight = 0;
     } else {
         value = element->GetText();
         stream << value;
-        stream >> curvatureHeuriscitWeight;
+        stream >> curvatureHeuristicWeight;
         stream.clear();
         stream.str("");
     }
-    searchParams[CN_PT_CHW] = curvatureHeuriscitWeight;
+    searchParams[CN_PT_CHW] = curvatureHeuristicWeight;
 
     element = algorithm->FirstChildElement(CNS_TAG_SMOOTHER);
     if (!element) {
         std::cout << "Warning! No '" << CNS_TAG_SMOOTHER << "' element found inside '" << CNS_TAG_ALGORITHM
             << "' section. Set to default value: false." << std::endl;
-        postsmoother = 0;
+        postSmoother = 0;
     } else {
         std::string ps;
         value = element->GetText();
@@ -189,14 +189,14 @@ bool Config::getConfig(const char* FileName) {
         stream >> ps;
         stream.clear();
         stream.str("");
-        if (ps == "true" || ps == "True" || ps == "1") postsmoother = 1;
-        else if (ps == "false" || ps == "False" || ps == "0") postsmoother = 0;
+        if (ps == "true" || ps == "True" || ps == "1") postSmoother = 1;
+        else if (ps == "false" || ps == "False" || ps == "0") postSmoother = 0;
         else {
             std::cout << "Warning! Wrong '" << CNS_TAG_SMOOTHER << "Set to default value: false." << std::endl;
-            postsmoother = 0;
+            postSmoother = 0;
         }
     }
-    searchParams[CN_PT_PS] = postsmoother;
+    searchParams[CN_PT_PS] = postSmoother;
 
     element = algorithm->FirstChildElement(CNS_TAG_DECRDISTFACTOR);
     if (!element) {
@@ -289,11 +289,11 @@ bool Config::getConfig(const char* FileName) {
 
     value = element->GetText();
     stream << value;
-    stream >> loglevel;
+    stream >> logLevel;
     stream.clear();
     stream.str("");
 
-    searchParams[CN_PT_LOGLVL] = loglevel;
+    searchParams[CN_PT_LOGLVL] = logLevel;
 
     return true;
 }

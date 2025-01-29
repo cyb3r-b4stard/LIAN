@@ -14,7 +14,7 @@ def extract_data(dict, line):
     if line.strip().startswith('<summary'):
         path_found, n_steps, n_nodes, n_sections, length, length_scaled, time, max_angle, accum_angle = line.split()[1:10]
 
-        path_found    = bool(path_found.split('=')[1].strip('"'))
+        path_found    = int(path_found.split('=')[1].strip('"') == 'true')
         n_nodes       = int(n_nodes.split('=')[1].strip('"'))
         n_steps       = int(n_steps.split('=')[1].strip('"'))
         n_sections    = int(n_sections.split('=')[1].strip('"'))
@@ -24,6 +24,16 @@ def extract_data(dict, line):
         max_angle     = float(max_angle.split('=')[1].strip('"'))
         accum_angle   = float(accum_angle.split('=')[1].strip('"'))
 
+        if not path_found:
+            n_nodes = 0
+            n_steps = 0
+            n_sections = 0
+            length = 0
+            length_scaled = 0
+            time = 0
+            max_angle = 0
+            accum_angle = 0
+            
         dict[filename] = {
             'path_found': path_found,
             'n_nodes': n_nodes,
@@ -48,10 +58,6 @@ for filename in os.listdir(logs_basic_path):
 data_basic    = pd.DataFrame(dict_basic).transpose()
 data_modified = pd.DataFrame(dict_modified).transpose()
 
-def calculate_ratio(first, second, parameter):
-    assert len(first) == len(second), "ERROR: Tables have different number of rows"
-    return sum(first[parameter] == second[parameter]) / len(first) 
-
 def calculate_mean(data, parameter):
     return data[parameter].mean()
 
@@ -59,21 +65,30 @@ fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(12, 8))
 width = 0.6
 
 # Success Rate
-ratio = calculate_ratio(data_basic, data_modified, 'path_found')
+basic_statistic    = calculate_mean(data_basic, 'path_found')
+modified_statistic = calculate_mean(data_modified, 'path_found')
+
+ratio = modified_statistic / basic_statistic
 
 ax[0, 0].bar('basic-LIAN', 1, width)
 ax[0, 0].bar('modified-LIAN', ratio, width)
 ax[0, 0].set_title('Success Rate')
 
 # Path Length
-ratio = calculate_ratio(data_basic, data_modified, 'length')
+basic_statistic    = calculate_mean(data_basic, 'length')
+modified_statistic = calculate_mean(data_modified, 'length')
+
+ratio = modified_statistic / basic_statistic
 
 ax[0, 1].bar('basic-LIAN', 1, width)
 ax[0, 1].bar('modified-LIAN', ratio, width)
 ax[0, 1].set_title('Path Length')
 
 # Sections
-ratio = calculate_ratio(data_basic, data_modified, 'n_sections')
+basic_statistic    = calculate_mean(data_basic, 'n_sections')
+modified_statistic = calculate_mean(data_modified, 'n_sections')
+
+ratio = modified_statistic / basic_statistic
 
 ax[0, 2].bar('basic-LIAN', 1, width)
 ax[0, 2].bar('modified-LIAN', ratio, width)
