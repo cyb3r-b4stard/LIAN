@@ -58,13 +58,6 @@ for filename in os.listdir(logs_basic_path):
 data_basic    = pd.DataFrame(dict_basic).transpose()
 data_modified = pd.DataFrame(dict_modified).transpose()
 
-
-def calculate_ratio(first, second, parameter):
-    tmp_first = first[first.index.isin(second.index)]
-    
-    return len(second[parameter] == tmp_first[parameter]) / len(first[first[parameter] > 0])
-    
-
 def calculate_mean(data, parameter):
     return data[parameter].mean()
 
@@ -75,7 +68,6 @@ width = 0.6
 basic_statistic    = calculate_mean(data_basic, 'path_found')
 modified_statistic = calculate_mean(data_modified, 'path_found')
 
-# ratio = calculate_ratio(data_basic, data_modified, 'path_found')
 ratio = modified_statistic / basic_statistic
 
 ax[0, 0].bar('basic-LIAN', 1, width)
@@ -86,7 +78,6 @@ ax[0, 0].set_title('Success Rate')
 basic_statistic    = calculate_mean(data_basic, 'length')
 modified_statistic = calculate_mean(data_modified, 'length')
 
-# ratio = calculate_ratio(data_basic, data_modified, 'length')
 ratio = modified_statistic / basic_statistic
 
 ax[0, 1].bar('basic-LIAN', 1, width)
@@ -97,7 +88,6 @@ ax[0, 1].set_title('Path Length')
 basic_statistic    = calculate_mean(data_basic, 'n_sections')
 modified_statistic = calculate_mean(data_modified, 'n_sections')
 
-# ratio = calculate_ratio(data_basic, data_modified, 'n_sections')
 ratio = modified_statistic / basic_statistic
 
 ax[0, 2].bar('basic-LIAN', 1, width)
