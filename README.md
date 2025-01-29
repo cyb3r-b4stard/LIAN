@@ -3,7 +3,7 @@
 LIAN (from "limited angle") &mdash; heuristic search algorithm for generating smooth paths for single-shot grid-based 2D path finding.
 
 ## Description
-Current project provides an implementation of [LIAN](https://arxiv.org/pdf/1506.01864.pdf) algorithm adapted for single-shot grid-based 2D environment.
+Current project aims at providing more efficient implementation of [LIAN](https://arxiv.org/pdf/1506.01864.pdf) algorithm, than it's base version [PathPlanning/LIAN](https://github.com/PathPlanning/LIAN).
 
 The algorithm relies on the main idea o PathPlanning algorithms (as A\*, Theta\* and others), but designed for solving angle constrained path planning problem which is formulated as following:
 
