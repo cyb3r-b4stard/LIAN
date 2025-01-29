@@ -11,6 +11,8 @@ Given two distinct traversable cells (star and goal), and angle limitation (valu
 
 Besides angle limitation we also want out path to be stable and do not have turns after every meter. For this reason there is a parameter &mdash; delta, which describes the desirable length of every step. But the necessity to initialize fixed delta could cause dead-end situation near huge obstacles. In order to solve the problem: there are more parameters which define minimal value of the step and also the rule of increasing/decreasing this value.
 
+Algorithm supports XML files as input and output format. Input file contains map and environment representation (see __"Input and Output files"__ or [samples](https://github.com/PathPlanning/LIAN/tree/master/examples))
+
 ## Project Structure
 
     .
@@ -23,9 +25,6 @@ Besides angle limitation we also want out path to be stable and do not have turn
     ├── main.cpp
     ├── CMakeLists.txt
     └── README.md           
-
-
-Algorithm supports XML files as input and output format. Input file contains map and environment representation (see __"Input and Output files"__ or [samples](https://github.com/PathPlanning/LIAN/tree/master/examples))
 
 ## Getting Started
 
